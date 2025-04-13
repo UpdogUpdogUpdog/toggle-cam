@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Toggle-Cam
+Comment=Toggle the onboard webcam to save battery
+Exec=/usr/local/bin/toggle-cam
+Icon=/full/path/to/icon.png
+Terminal=false
+Categories=Utility;
