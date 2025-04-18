@@ -1,26 +1,78 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# directory containing this script
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TITLE="Webcam Toggle"
 
-echo "🔧 Installing Toggle‑Cam…"
+# -----------------------------------------------------------------------------
+# notify() – same as before
+# -----------------------------------------------------------------------------
+notify() {
+    if command -v notify-send >/dev/null 2>&1; then
+        notify-send -u low -i toggle-cam "$TITLE" "$1"
+    else
+        echo "$1"
+    fi
+}
 
-# 1. Script → /usr/bin/toggle-cam
-sudo install -Dm755 "$SRC_DIR/bin/toggle-cam.sh" /usr/bin/toggle-cam
+# -----------------------------------------------------------------------------
+# Detect NixOS vs. “regular” Linux
+# -----------------------------------------------------------------------------
+IS_NIXOS=false
+if grep -q '^ID=nixos' /etc/os-release 2>/dev/null; then
+    IS_NIXOS=true
+fi
 
-# 2. Desktop file → /usr/share/applications/
-sudo install -Dm644 \
-    "$SRC_DIR/share/applications/toggle-cam.desktop" \
-    /usr/share/applications/toggle-cam.desktop
+if [ "$IS_NIXOS" = true ]; then
+    echo "🛠  Detected NixOS – doing per‑user install in ~/.local/"
+    PREFIX="$HOME/.local"
 
-# 3. Icon → /usr/share/icons/hicolor/48x48/
-sudo install -Dm644 \
-    "$SRC_DIR/share/icons/hicolor/48x48/toggle-cam.png" \
-    /usr/share/icons/hicolor/48x48/toggle-cam.png
+    # 1) script
+    install -Dm755 "$SRC_DIR/bin/toggle-cam.sh" \
+        "$PREFIX/bin/toggle-cam"
 
-# 4. Refresh icon cache (quietly)
-sudo gtk-update-icon-cache /usr/share/icons/hicolor &>/dev/null || true
+    # 2) desktop file
+    install -Dm755 "$SRC_DIR/share/applications/toggle-cam.desktop" \
+        "$PREFIX/share/applications/toggle-cam.desktop"
 
-echo "✅ Installed!"
-echo "   • Run ‘toggle-cam’ in a terminal, or find “Toggle‑Cam” in your app launcher."
+    # 3) launcher icon
+    install -Dm644 "$SRC_DIR/share/icons/hicolor/48x48/apps/toggle-cam.png" \
+        "$PREFIX/share/icons/hicolor/48x48/apps/toggle-cam.png"
+
+    # 4) state icons
+    install -Dm644 "$SRC_DIR/share/icons/on_toggle-cam.png" \
+        "$PREFIX/share/icons/on_toggle-cam.png"
+    install -Dm644 "$SRC_DIR/share/icons/off_toggle-cam.png" \
+        "$PREFIX/share/icons/off_toggle-cam.png"
+
+    # no sudo needed
+    echo "✅ Installed under $PREFIX. You may need to log out/in or run:"
+    echo "   export PATH=\$HOME/.local/bin:\$PATH"
+
+else
+    echo "🔧 Doing system‑wide install under /usr/local/"
+    # 1) script
+    sudo install -Dm755 "$SRC_DIR/bin/toggle-cam.sh" \
+        /usr/local/bin/toggle-cam
+
+    # 2) desktop file
+    sudo install -Dm755 "$SRC_DIR/share/applications/toggle-cam.desktop" \
+        /usr/local/share/applications/toggle-cam.desktop
+
+    # 3) launcher icon
+    sudo install -Dm644 "$SRC_DIR/share/icons/hicolor/48x48/apps/toggle-cam.png" \
+        /usr/local/share/icons/hicolor/48x48/apps/toggle-cam.png
+
+    # 4) state icons
+    sudo install -Dm644 "$SRC_DIR/share/icons/on_toggle-cam.png" \
+        /usr/local/share/icons/on_toggle-cam.png
+    sudo install -Dm644 "$SRC_DIR/share/icons/off_toggle-cam.png" \
+        /usr/local/share/icons/off_toggle-cam.png
+
+    # 5) cache updates
+    sudo gtk-update-icon-cache /usr/local/share/icons/hicolor &>/dev/null || true
+
+    echo "✅ Installed system‑wide. Launch “Toggle Cam” from your app menu."
+fi
+
+notify "Installation complete."
