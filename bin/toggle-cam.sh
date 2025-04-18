@@ -2,20 +2,26 @@
 
 notify() {
     local title="Webcam Toggle"
-    on_icon = "/usr/share/icons/on_toggle-cam.png"
-    off_icon = "/usr/share/icons/off_toggle-cam.png"
+    local msg="$1"
+    local icon
 
-    if command -v kdialog >/dev/null 2>&1; then
-            if [ $1 = "Camera enabled." ]; then
-                icon=$on_icon
-            else
-                icon=$off_icon
-            fi
-        kdialog --title "$title" --icon $icon --passivepopup "$1" 3
-    elif command -v notify-send >/dev/null 2>&1; then
-        notify-send -u low "$title" "$1"
+    # pick the on/off icon name
+    if [ "$msg" = "Camera enabled." ]; then
+        icon="toggle-cam-on"
     else
-        echo "$1"
+        icon="toggle-cam-off"
+    fi
+
+    if command -v kdialog &>/dev/null; then
+        # kdialog will look up the icon name in the current theme
+        kdialog --title "$title" --icon "$icon" --passivepopup "$msg" 3
+
+    elif command -v notify-send &>/dev/null; then
+        # notify-send also resolves icon names from the theme
+        notify-send -u low -i "$icon" "$title" "$msg"
+
+    else
+        echo "$msg"
     fi
 }
 
