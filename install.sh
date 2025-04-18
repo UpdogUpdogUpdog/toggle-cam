@@ -4,9 +4,6 @@ set -euo pipefail
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TITLE="Webcam Toggle"
 
-# -----------------------------------------------------------------------------
-# notify() – same as before
-# -----------------------------------------------------------------------------
 notify() {
     if command -v notify-send >/dev/null 2>&1; then
         notify-send -u low -i toggle-cam "$TITLE" "$1"
