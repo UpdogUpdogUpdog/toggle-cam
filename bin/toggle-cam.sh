@@ -1,23 +1,24 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -euo pipefail
 
 notify() {
     local title="Webcam Toggle"
     local msg="$1"
-    local icon
+    local icon="toggle-cam"   # a sensible default
 
-    # pick the on/off icon name
-    if [ "$msg" = "Camera enabled." ]; then
+    # pick on/off based on substring
+    if [[ "$msg" == *enabled* ]]; then
         icon="toggle-cam-on"
-    else
+    elif [[ "$msg" == *disabled* ]]; then
         icon="toggle-cam-off"
     fi
 
     if command -v kdialog &>/dev/null; then
-        # kdialog will look up the icon name in the current theme
-        kdialog --title "$title" --icon "$icon" --passivepopup "$msg" 3
+        kdialog --title "$title" \
+                --icon "$icon" \
+                --passivepopup "$msg" 3
 
     elif command -v notify-send &>/dev/null; then
-        # notify-send also resolves icon names from the theme
         notify-send -u low -i "$icon" "$title" "$msg"
 
     else
