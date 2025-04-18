@@ -43,7 +43,8 @@ for vdev in /sys/class/video4linux/video*; do
         retries=5
         success=0
 
-        for i in $(seq 1 $retries); do
+        for (( i=1; i<=retries; i++ )); do
+            echo "Attempt $i of $retries…"
             echo "$device_id" | sudo tee /sys/bus/usb/drivers/uvcvideo/unbind >/dev/null
             sleep 1
 
@@ -52,7 +53,7 @@ for vdev in /sys/class/video4linux/video*; do
                 success=1
                 break
             else
-                echo "Unbind attempt $i failed... retrying in 5s."
+                echo "Unbind attempt $i failed… retrying in 5s."
                 sleep 5
             fi
         done
