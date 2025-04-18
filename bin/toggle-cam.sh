@@ -31,7 +31,7 @@ unbound=0
 found=0
 
 for vdev in /sys/class/video4linux/video*; do
-    device_path=$(readlink "$vdev/device" 2>/dev/null)
+    device_path=$(readlink "$vdev/device" 2>/dev/null || :)
     [ -z "$device_path" ] && continue
 
     device_id=$(basename "$device_path")
