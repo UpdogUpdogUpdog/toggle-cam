@@ -15,18 +15,15 @@ Or just run discord from your browser and deny it camera privileges instead, but
 
 ---
 
-toggle-cam can be run directly from CLI to disable the camera until next boot, or you can run it again to re-enable the camera.
+Use the desktop icon, or `toggle-cam` can be run directly from CLI to disable the camera. Either until next boot, or you can run it again to re-enable the camera.
 
-I'm working on the desktop icon for toggle-cam, but we'll get there. Just CLI for now. 🖥️
-
-Tested in NixOS in KDE. Probably works with other stuff. Requires `kdialog` only for a pop-up menu indicating state change. Should work without it I think.
+Tested in NixOS in KDE. Probably works with other stuff but if it doesn't work, tell me. Requires `kdialog` only for a pop-up menu indicating state change. Should work without it I think.
 
 ---
 
 # Install instructions 🛠️  
-These steps will improve in time:
 * Be a sudo or root user, this is driver manipulation stuff.
-* Install kdialog, or don't. I'm not your dad. (you got this. IDK what distro you're on, figure it out.)
+* (Optional) Install kdialog, or don't. I'm not your dad. (you got this. IDK what distro you're on, figure it out.)
 ```
 wget https://github.com/UpdogUpdogUpdog/toggle-cam/archive/main.zip -O toggle-cam.zip
 unzip toggle-cam.zip     # creates ~/toggle-cam-main
