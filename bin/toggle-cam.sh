@@ -9,9 +9,9 @@ notify() {
 
     # pick on/off based on substring
     if [[ "$msg" == *enabled* ]]; then
-        icon="toggle-cam-on"
+        icon="on_toggle-cam"
     elif [[ "$msg" == *disabled* ]]; then
-        icon="toggle-cam-off"
+        icon="off_toggle-cam"
     fi
 
     if command -v kdialog &>/dev/null; then
