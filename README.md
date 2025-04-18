@@ -26,7 +26,6 @@ Tested in NixOS in KDE. Probably works with other stuff. Requires `kdialog` only
 # Install instructions 🛠️  
 These steps will improve in time:
 * Be a sudo or root user, this is driver manipulation stuff.
-  
 * Install kdialog, or don't. I'm not your dad. (you got this. IDK what distro you're on, figure it out.)
 ```
 wget https://github.com/UpdogUpdogUpdog/toggle-cam/archive/main.zip -O toggle-cam.zip
@@ -39,6 +38,11 @@ chmod +x install.sh      # one‑time only if your repo didn’t preserve +x
 
 # How to use it 🧰  
 toggle-cam
+
+or
+
+![image](https://github.com/user-attachments/assets/745f094d-f640-4e19-8178-42794efb31c9)
+
 
 or
 
