@@ -21,7 +21,7 @@ Tested in NixOS in KDE. Probably works with other stuff but if it doesn't work, 
 
 ---
 
-# Install instructions 🛠️  
+# Install instructions (normies) 🛠️  
 * Be a sudo or root user, this is driver manipulation stuff.
 * (Optional) Install kdialog, or don't. I'm not your dad. (you got this. IDK what distro you're on, figure it out.)
 ```
@@ -30,6 +30,53 @@ unzip ~/toggle-cam.zip  -d ~/   # creates ~/toggle-cam-main
 ~/toggle-cam-main/install.sh             # enters sudo password once
 ```
 ---
+# NixOS home-manager
+
+Add this crap to your Home Manager configuration (`home.nix`):
+
+```nix
+home.packages = with pkgs; [
+  (stdenv.mkDerivation rec {
+    pname = "toggle-cam";
+    version = "main";
+
+    src = fetchFromGitHub {
+      owner = "UpdogUpdogUpdog";
+      repo = "toggle-cam";
+      rev = "main";
+      sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # replace after initial build attempt
+    };
+
+    nativeBuildInputs = [ bash ];
+
+    dontBuild = true;
+
+    installPhase = ''
+      mkdir -p $out
+      IS_NIXOS=true PREFIX=$out bash ./install.sh
+    '';
+  })
+];
+```
+
+**First-time setup**:
+
+1. Run:
+   ```shell
+   home-manager switch
+   ```
+
+   This initial run **will fail**, but that's good for once. We're generating SHA256 hashes.
+
+2. Copy the correct SHA256 hash provided by the error message, replace the placeholder (`sha256-AAA...`) in your configuration.
+
+3. Run again:
+   ```shell
+   home-manager switch
+   ```
+
+Then you're good 
+
 
 # How to use it 🧰  
 toggle-cam
