@@ -45,7 +45,7 @@ for vdev in /sys/class/video4linux/video*; do
 
         for (( i=1; i<=retries; i++ )); do
             echo "Attempt $i of $retries…"
-            echo "$device_id" | sudo tee /sys/bus/usb/drivers/uvcvideo/unbind >/dev/null
+            echo "$device_id" |  tee /sys/bus/usb/drivers/uvcvideo/unbind >/dev/null
             sleep 1
 
             if [ ! -e "$driver_path" ]; then
@@ -68,13 +68,13 @@ done
 
 if [ "$unbound" -eq 1 ]; then
     echo "Unbinding done, trying to unload uvcvideo..."
-    sudo modprobe -r uvcvideo
+     modprobe -r uvcvideo
     notify "Camera disabled."
 else
     echo "Reloading uvcvideo and re-binding all cameras..."
-    sudo modprobe -r uvcvideo 2>/dev/null
+     modprobe -r uvcvideo 2>/dev/null
     sleep 3
-    sudo modprobe uvcvideo
+     modprobe uvcvideo
     sleep 3
 
     for vdev in /sys/class/video4linux/video*; do
@@ -83,7 +83,7 @@ else
 
         # Optional rebind, currently commented:
         # device_id=$(basename "$device_path")
-        # echo "$device_id" | sudo tee /sys/bus/usb/drivers/uvcvideo/bind >/dev/null
+        # echo "$device_id" |  tee /sys/bus/usb/drivers/uvcvideo/bind >/dev/null
     done
 
     notify "Camera enabled." 

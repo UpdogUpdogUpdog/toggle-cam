@@ -1,0 +1,16 @@
+[Unit]
+Description=ToggleCam kernel helper for user %i
+
+[Service]
+Type=oneshot
+
+# Make sure the helper can find bash, modprobe, and your script:
+# - /home/<user>/.local/bin      (per-user install)
+# - /home/<user>/.nix-profile/bin (Home Manager or nix profile)
+# - /run/current-system/sw/bin    (system-wide Nix profile)
+# - /usr/local/bin                (non-nix installs)
+# - /usr/bin and /bin             (standard distro tools and bash)
+Environment=PATH=/home/%i/.local/bin:/home/%i/.nix-profile/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin
+
+# Run via env so it picks up that PATH
+ExecStart=/usr/bin/env toggle-cam

@@ -73,11 +73,19 @@ else
 
 fi
 
-    # service install
-    mkdir -p $HOME/.config/systemd/user
-    install -Dm644 \
-        "$SRC_DIR/share/systemd/user/toggle-cam.service" \
-        "$HOME/.config/systemd/user/toggle-cam.service"
+# system‑wide root helper service
+echo "📦 Installing root helper service…"
+sudo install -Dm644 \
+    "$SRC_DIR/share/systemd/system/toggle-cam-root@.service" \
+    /etc/systemd/system/toggle-cam-root@.service
+
+sudo systemctl enable toggle-cam-root@"$USER".service
+
+# user service install
+mkdir -p $HOME/.config/systemd/user
+install -Dm644 \
+    "$SRC_DIR/share/systemd/user/toggle-cam.service" \
+    "$HOME/.config/systemd/user/toggle-cam.service"
 
 notify "Installation complete. Now reload & enable the service:"
 echo "  systemctl --user daemon-reload"

@@ -1,0 +1,7 @@
+polkit.addRule(function(action, subject) {
+  if (action.id == "org.freedesktop.systemd1.manage-unit" &&
+      action.lookup("unit") == "toggle-cam-root@" + subject.user + ".service" &&
+      (action.lookup("verb") == "start" || action.lookup("verb") == "stop")) {
+    return polkit.Result.YES;
+  }
+});

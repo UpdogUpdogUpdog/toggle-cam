@@ -8,11 +8,27 @@ Type=oneshot
 RemainAfterExit=yes
 
 # ensure the user’s ~/.local/bin (and /usr/local/bin) are in PATH
-Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin
+Environment=PATH=%h/.local/bin:%h/.nix-profile/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin
+
+# GUI session—Wayland & X11 fallbacks
+# import-environment is recommended in your shell login,
+# but you can hard‑code sensible defaults here
+
+# Wayland
+Environment=WAYLAND_DISPLAY=wayland‑0
+Environment=XDG_RUNTIME_DIR=%t
+
+# X11 (fallback)
+Environment=DISPLAY=:0
+# XAUTHORITY isn’t strictly needed on many distros, but for old‑school X setups:
+Environment=XAUTHORITY=%h/.Xauthority
+
+# session bus (used by both notify‑send & kdialog)
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus
 
 # just invoke the command by name
-ExecStart=toggle-cam
-ExecReload=toggle-cam
+ExecStart=/usr/bin/env toggle-cam
+ExecReload=/usr/bin/env toggle-cam
 
 [Install]
 WantedBy=default.target
