@@ -72,4 +72,6 @@ else
     echo "✅ Installed system‑wide. Launch “Toggle Cam” from your app menu."
 fi
 
+chmod +x "$SRC_DIR/uninstall.sh"
+
 notify "Installation complete."
