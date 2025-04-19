@@ -1,13 +1,15 @@
 # toggle-cam 🔌📷  
 A tool for linux laptops. Like a light-switch to turn your webcam device on and off.
 
+![image](https://github.com/user-attachments/assets/9d81b389-7355-4c84-98df-2125afadab10)
+
 ---
 
 When your power bill is lower, you can thank me at https://ko-fi.com/updogupdogupdog 💸
 
 ---
 
-Discord for Linux desktop environments will power on your laptop's onboard webcam while it is running, and poll it repeatedly every few seconds. Even if you are not in any video calls, or if it is just running in the background. Even if you've never used it to video chat at all.
+GAMERS: Discord for Linux desktop environments will power on your laptop's onboard webcam while it is running, and poll it repeatedly every few seconds. Even if you are not in any video calls, or if it is just running in the background. Even if you've never used it to video chat at all.
 
 This behavior causes significant, non-trivial battery drain even if you only let Discord idle and never even interact with it. Legitimately 2+ Watts. You can watch this yourself if you install `powertop` and open Discord, wait 5 seconds or so and the camera will appear and your power usage might increase by 50-100%. Then close it, or run this tool and check again. Multiple hours of battery drained, thousands of tons of coal and oil and nuclear power wasted. Accelerate the heat death of the universe, or use this tool? Easy choice. 🔥🌍
 
