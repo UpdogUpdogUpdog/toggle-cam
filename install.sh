@@ -80,4 +80,4 @@ fi
 
 notify "Installation complete. Now reload & enable the service:"
 echo "  systemctl --user daemon-reload"
-echo "  systemctl --user enable --now toggle-cam.service""
+echo "  systemctl --user enable --now toggle-cam.service"
