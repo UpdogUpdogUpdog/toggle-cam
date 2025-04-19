@@ -15,8 +15,8 @@ notify() {
 # -----------------------------------------------------------------------------
 # Detect NixOS vs. “regular” Linux
 # -----------------------------------------------------------------------------
-IS_NIXOS=false
-if grep -q '^ID=nixos' /etc/os-release 2>/dev/null; then
+IS_NIXOS=${IS_NIXOS:-false}
+if [ "$IS_NIXOS" = false ] && grep -q '^ID=nixos' /etc/os-release 2>/dev/null; then
     IS_NIXOS=true
 fi
 
