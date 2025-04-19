@@ -1,6 +1,9 @@
 # toggle-cam 🔌📷  
 A tool for linux laptops. Like a light-switch to turn your webcam device on and off.
 
+![image](https://github.com/user-attachments/assets/0d7d8e23-5cb8-4d66-959c-60b830b9f5bb)
+
+
 ---
 
 When your power bill is lower, you can thank me at https://ko-fi.com/updogupdogupdog 💸
