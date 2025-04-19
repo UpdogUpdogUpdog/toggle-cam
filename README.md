@@ -55,6 +55,8 @@ toggle-cam
 
 Survives sleep mode for me. If you are rebooting, your system will redetect the camera. 🔁
 
+---
+
 # Uninstall
 ```
 ~/toggle-cam-main/uninstall.sh
