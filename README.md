@@ -25,11 +25,9 @@ Tested in NixOS in KDE. Probably works with other stuff but if it doesn't work, 
 * Be a sudo or root user, this is driver manipulation stuff.
 * (Optional) Install kdialog, or don't. I'm not your dad. (you got this. IDK what distro you're on, figure it out.)
 ```
-wget https://github.com/UpdogUpdogUpdog/toggle-cam/archive/main.zip -O toggle-cam.zip
-unzip toggle-cam.zip     # creates ~/toggle-cam-main
-cd toggle-cam-main
-chmod +x install.sh      # one‑time only if your repo didn’t preserve +x
-./install.sh             # enters sudo password once
+wget https://github.com/UpdogUpdogUpdog/toggle-cam/archive/main.zip -O ~/toggle-cam.zip
+unzip ~/toggle-cam.zip  -d ~/   # creates ~/toggle-cam-main
+~/toggle-cam-main/install.sh             # enters sudo password once
 ```
 ---
 
@@ -56,6 +54,11 @@ or
 toggle-cam
 
 Survives sleep mode for me. If you are rebooting, your system will redetect the camera. 🔁
+
+# Uninstall
+```
+~/toggle-cam-main/uninstall.sh
+```
 
 ---
 
