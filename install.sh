@@ -22,7 +22,7 @@ fi
 
 if [ "$IS_NIXOS" = true ]; then
     echo "🛠  Detected NixOS – doing per‑user install in ~/.local/"
-    PREFIX="$HOME/.local"
+    PREFIX="${PREFIX:-$HOME/.local}"
 
     # 1) script
     install -Dm755 "$SRC_DIR/bin/toggle-cam.sh" \
