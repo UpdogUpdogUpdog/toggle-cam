@@ -1,0 +1,18 @@
+# share/systemd/user/toggle-cam.service
+[Unit]
+Description=ToggleCam – toggle your webcam on/off
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+# ensure the user’s ~/.local/bin (and /usr/local/bin) are in PATH
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin
+
+# just invoke the command by name
+ExecStart=toggle-cam
+ExecReload=toggle-cam
+
+[Install]
+WantedBy=default.target

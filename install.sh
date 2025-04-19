@@ -70,6 +70,14 @@ else
     sudo gtk-update-icon-cache /usr/local/share/icons/hicolor &>/dev/null || true
 
     echo "✅ Installed system‑wide. Launch “Toggle Cam” from your app menu."
+
+    # 6) service install
+    install -Dm644 \
+        "$SRC_DIR/share/systemd/user/toggle-cam.service" \
+        "$HOME/.config/systemd/user/toggle-cam.service"
+
 fi
 
-notify "Installation complete."
+notify "Installation complete. Now reload & enable the service:"
+echo "  systemctl --user daemon-reload"
+echo "  systemctl --user enable --now toggle-cam.service""
