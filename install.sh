@@ -21,9 +21,13 @@ if [ "$IS_NIXOS" = false ] && grep -q '^ID=nixos' /etc/os-release 2>/dev/null; t
 fi
 
 if [ "$IS_NIXOS" = true ]; then
-    echo "🛠  Detected NixOS – doing per‑user install in ~/.local/"
-    PREFIX="${PREFIX:-$HOME/.local}"
-
+    if [ -z "${PREFIX:-}" ]; then
+        echo "🛠  Detected NixOS – no PREFIX set, assuming manual install into ~/.local/"
+        PREFIX="$HOME/.local"
+    else
+        echo "🛠  Detected NixOS – PREFIX=$PREFIX set (probably a Nix build sandbox)"
+    fi
+    
     # 1) script
     install -Dm755 "$SRC_DIR/bin/toggle-cam.sh" \
         "$PREFIX/bin/toggle-cam"
