@@ -29,6 +29,16 @@ if [ "$IS_NIXOS" = true ]; then
     install -Dm755 "$SRC_DIR/bin/toggle-cam.sh" \
         "$PREFIX/bin/toggle-cam"
 
+    echo "Installing systemd user unit…"
+    echo "DEBUG: Install -Dm755 quote $SRC_DIR/bin/cam-status.shquote slash newline quote $PREFIX/bin/cam-status quote"
+    # Service installation
+    install -Dm755 "$SRC_DIR/bin/cam-status.sh" \
+        "$PREFIX/bin/cam-status"
+
+    echo "DEBUG: Install -Dm644 quote $SRC_DIR/share/systemd/user/cam-status.service quote slash newline quote $DOTCONFIG/systemd/user/cam-status.service quote"
+    install -Dm644 "$SRC_DIR/share/systemd/user/cam-status.service" \
+        "$DOTCONFIG/systemd/user/cam-status.service"
+
     # 2) desktop file
     install -Dm755 "$SRC_DIR/share/applications/toggle-cam.desktop" \
         "$PREFIX/share/applications/toggle-cam.desktop"
@@ -47,11 +57,7 @@ if [ "$IS_NIXOS" = true ]; then
     echo "✅ Installed under $PREFIX. You may need to log out/in or run:"
     echo "   export PATH=\$HOME/.local/bin:\$PATH"
 
-    echo "Installing systemd user unit…"
-    echo "DEBUG: Install -Dm755 quote $SRC_DIR/bin/cam-status.shquote slash newline quote $PREFIX/bin/cam-status quote"
-    # Service installation
-    install -Dm755 "$SRC_DIR/bin/cam-status.sh" \
-        "$PREFIX/bin/cam-status"
+
 
     echo "DEBUG: Install -Dm644 quote $SRC_DIR/share/systemd/user/cam-status.service quote slash newline quote $DOTCONFIG/systemd/user/cam-status.service quote"
     install -Dm644 "$SRC_DIR/share/systemd/user/cam-status.service" \
