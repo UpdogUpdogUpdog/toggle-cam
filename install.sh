@@ -48,16 +48,19 @@ if [ "$IS_NIXOS" = true ]; then
     echo "   export PATH=\$HOME/.local/bin:\$PATH"
 
     echo "Installing systemd user unit…"
+    echo "DEBUG: Install -Dm755 quote $SRC_DIR/bin/cam-status.shquote slash newline quote $PREFIX/bin/cam-status quote"
     # Service installation
     install -Dm755 "$SRC_DIR/bin/cam-status.sh" \
         "$PREFIX/bin/cam-status"
 
+    echo "DEBUG: Install -Dm644 quote $SRC_DIR/share/systemd/user/cam-status.service quote slash newline quote $DOTCONFIG/systemd/user/cam-status.service quote"
     install -Dm644 "$SRC_DIR/share/systemd/user/cam-status.service" \
         "$DOTCONFIG/systemd/user/cam-status.service"
 
     # reload user‐units, enable & start
-    systemctl --user daemon-reload
-    systemctl --user enable --now cam-status
+    echo "now run the following"
+    echo "systemctl --user daemon-reload"
+    echo "systemctl --user enable --now cam-status"
  
 
 else
