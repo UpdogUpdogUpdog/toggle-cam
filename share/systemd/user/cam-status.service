@@ -1,0 +1,10 @@
+# ~/.config/systemd/user/cam-status.service
+[Unit]
+Description=Camera status watcher via udev
+
+[Service]
+ExecStart=/usr/bin/env bash %h/.local/bin/cam-status.sh
+Restart=always
+
+[Install]
+WantedBy=default.target

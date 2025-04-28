@@ -42,4 +42,8 @@ sudo systemctl daemon-reload
 #9 ) Remove the unzipped repo and install media in home
 rm -rf ~/toggle-cam*
 
+systemctl --user disable --now cam-status || true
+rm -f "~/.config/systemd/user/cam-status.service"
+
+
 echo "✅ toggle‑cam has been fully uninstalled."

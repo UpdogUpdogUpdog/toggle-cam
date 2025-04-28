@@ -72,6 +72,20 @@ else
     echo "✅ Installed system‑wide. Launch “Toggle Cam” from your app menu."
 fi
 
+# Service installation
+install -Dm755 "$SRC_DIR/bin/cam-status.sh" \
+    "$PREFIX/bin/cam-status"
+
+# make sure the user‐unit dir exists
+mkdir -p "${HOME}/.config/systemd/user"
+install -Dm644 "$SRC_DIR/share/systemd/user/cam-status.service" \
+    "${HOME}/.config/systemd/user/cam-status.service"
+
+# reload user‐units, enable & start
+systemctl --user daemon-reload
+systemctl --user enable --now cam-status
+
+
 chmod +x "$SRC_DIR/uninstall.sh"
 
 notify "Installation complete."
