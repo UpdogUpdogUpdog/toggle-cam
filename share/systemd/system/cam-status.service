@@ -1,0 +1,10 @@
+# 
+[Unit]
+Description=Camera status watcher via udev
+
+[Service]
+ExecStart=bash /usr/local/bin/cam-status.sh
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -23,6 +23,7 @@ fi
 if [ "$IS_NIXOS" = true ]; then
     echo "🛠  Detected NixOS – doing per‑user install in ~/.local/"
     PREFIX="${PREFIX:-$HOME/.local}"
+    DOTCONFIG="${DOTCONFIG:-$HOME/.config}"
 
     # 1) script
     install -Dm755 "$SRC_DIR/bin/toggle-cam.sh" \
@@ -46,6 +47,19 @@ if [ "$IS_NIXOS" = true ]; then
     echo "✅ Installed under $PREFIX. You may need to log out/in or run:"
     echo "   export PATH=\$HOME/.local/bin:\$PATH"
 
+    echo "Installing systemd user unit…"
+    # Service installation
+    install -Dm755 "$SRC_DIR/bin/cam-status.sh" \
+        "$PREFIX/bin/cam-status"
+
+    install -Dm644 "$SRC_DIR/share/systemd/user/cam-status.service" \
+        "$DOTCONFIG/systemd/user/cam-status.service"
+
+    # reload user‐units, enable & start
+    systemctl --user daemon-reload
+    systemctl --user enable --now cam-status
+ 
+
 else
     echo "🔧 Doing system‑wide install under /usr/local/"
     # 1) script
@@ -64,26 +78,28 @@ else
     sudo install -Dm644 "$SRC_DIR/share/icons/on_toggle-cam.png" \
         /usr/local/share/icons/on_toggle-cam.png
     sudo install -Dm644 "$SRC_DIR/share/icons/off_toggle-cam.png" \
-        /usr/local/share/icons/off_toggle-cam.png
+        /usr/local/share/icons/off_toggle-cam.png 
 
     # 5) cache updates
     sudo gtk-update-icon-cache /usr/local/share/icons/hicolor &>/dev/null || true
 
     echo "✅ Installed system‑wide. Launch “Toggle Cam” from your app menu."
+
+    echo "Installing systemd user unit…" 
+    # Service installation
+    sudo install -Dm755 "$SRC_DIR/bin/cam-status.sh" \
+        /usr/local/bin/cam-status
+
+    sudo install -Dm644 "$SRC_DIR/share/systemd/system/cam-status.service" \
+        /etc/systemd/system/cam-status.service
+    # reload systemd, enable & start
+    sudo systemctl daemon-reload
+    sudo systemctl enable --now cam-status
+    
 fi
 
-# Service installation
-install -Dm755 "$SRC_DIR/bin/cam-status.sh" \
-    "$PREFIX/bin/cam-status"
 
-# make sure the user‐unit dir exists
-mkdir -p "${HOME}/.config/systemd/user"
-install -Dm644 "$SRC_DIR/share/systemd/user/cam-status.service" \
-    "${HOME}/.config/systemd/user/cam-status.service"
 
-# reload user‐units, enable & start
-systemctl --user daemon-reload
-systemctl --user enable --now cam-status
 
 
 chmod +x "$SRC_DIR/uninstall.sh"
